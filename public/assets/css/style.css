@@ -1,0 +1,153 @@
+html,
+body {
+    /* height: 100%; */
+    background-color: #474747 !important;
+}
+
+.greetings,
+p,
+h1, 
+h2 {
+    font-family: 'PT Sans Narrow', sans-serif;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 1100px;
+    min-height: 0;
+    background-color: #2b2929;
+    height: 100%;
+    padding-bottom: 0;
+}
+
+@media (max-width: 680px) {
+    .flex-container {
+        min-width: max-content;
+        min-height: max-content;
+        position: relative;
+    }
+
+
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 120px;
+    margin-bottom: 10px;
+    background-color: #191212;
+}
+
+ul  {
+    display: flex;
+    list-style-type: none;
+}
+
+ul li {
+    margin-right: 50px;
+}
+
+li a {
+    text-decoration: none;
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 1.4rem;
+    color: whitesmoke;
+    font-weight: 600;
+}
+
+.logo img {
+    width: 70px;
+    height: 70px;
+    margin-left: 50px;
+    fill: whitesmoke;
+}
+
+li a:hover {
+    color: Cornsilk;
+}
+
+.about_me {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+}
+
+.data {
+    display: flex;
+    align-items: center;
+}
+
+.article {
+    margin-top: 2em;   
+}
+
+.img {
+    max-width: 300px;
+    max-height: 400px;
+}
+@media (min-width: 900px) {
+    .first-content{
+        padding-left: 75%;
+    }
+    .first-content-birth{
+        padding-left: 39%;
+    }
+}
+
+.wrapper-person {
+    /*max-width: auto;*/
+    align-content: center;
+    height: auto;
+    margin: 0 auto;
+    padding: 10px;
+    position: relative;
+}
+
+p {
+    font-family: 'EB Garamond', serif;
+    font-size: 25px;
+    color: whitesmoke;
+    padding-left: 20px;
+}
+
+.text {
+    font-size: 1rem;
+    color: #585858;
+}
+
+h2 {
+    text-align: center;
+    color: #424242;
+}
+
+h6 {
+    color: whitesmoke;
+}
+
+h1 {
+    color: whitesmoke;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.footer {
+    background-color: #191212;
+    min-height: 50px;
+    flex: 0 0 auto;
+    /*
+    position:absolute;
+    bottom:0;
+    min-width: 1100px;
+     */
+}
+
+#footer-label {
+    text-align: center;
+}
+
+.title-portfolio {
+
+}
