@@ -7,6 +7,15 @@ use application\core\Model;
 class Persons extends Model {
 
     /**
+     * @var array|string[]
+     */
+    public static array $genders = [
+        'maleGender' => 'мужской пол',
+        'femaleGender' => 'женский пол',
+        'indeterminateGender' => 'неопределенный пол'
+    ];
+
+    /**
      * @return bool|array
      */
     public function getPersons(): bool|array {
@@ -17,6 +26,30 @@ class Persons extends Model {
                     LEFT JOIN profession pr ON p.profession_id = pr.id 
                     ORDER BY p.fullname ASC'
         );
+    }
+
+    /**
+     * @param int $min
+     * @param int $max
+     * @return int|float
+     */
+    function randomFloat(int $min = 0, int $max = 1): int|float {
+        return $min + mt_rand() / mt_getrandmax() * ($max - $min);
+    }
+
+    /**
+     * @param array $person
+     * @param string $returnKey
+     * @param int $min
+     * @return mixed
+     */
+    public function getRandomPerson(array $person, string $returnKey = '', int $min = 0): mixed {
+        $randomKey =  rand($min, count($person) - 1);
+
+        if (!empty($returnKey)) {
+            return $person[$randomKey][$returnKey];
+        }
+        return $person[$randomKey];
     }
 
     /**
@@ -91,14 +124,78 @@ class Persons extends Model {
             ) $genderCount--;
 
             if ($genderCount > 0) {
-                return 'мужской пол';
+                return self::$genders['maleGender'];
             } elseif ($genderCount < 0) {
-                return 'женский пол';
+                return self::$genders['femaleGender'];
             } else {
-                return 'неопределенный пол';
+                return self::$genders['indeterminateGender'];
             }
         }
 
         return false;
     }
+
+    /**
+     * @param array $persons
+     * @return bool|array
+     */
+    public function getGenderDescription(array $persons = []): bool|array {
+        $totalLength = count($persons);
+        $listGender = [];
+        $result = [];
+
+        if ($persons) {
+            foreach ($persons as $person) {
+                if ($person['fullname']) {
+                    array_push($listGender, $this->getGenderFromName($person['fullname']));
+                }
+            }
+
+            foreach (self::$genders as $key => $genderValue) {
+                $listArr = array_filter($listGender, fn($gender) => $gender === $genderValue);
+                $result[$key] = round(count($listArr) / $totalLength * 100,0); // без этой конструкции вернет bool
+            }
+
+            return $result;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $surname
+     * @param string $name
+     * @param string $patronymic
+     * @param array $persons
+     * @return bool|array
+     */
+    public function getPerfectPartner(string $surname, string $name, string $patronymic, array $persons): bool|array {
+
+        if ($surname && $name && $patronymic && $persons) {
+            $surname = mb_convert_case($surname, MB_CASE_TITLE, "UTF-8");
+            $name = mb_convert_case($name, MB_CASE_TITLE, "UTF-8");
+            $patronymic = mb_convert_case($patronymic, MB_CASE_TITLE, "UTF-8");
+
+            $fio = $this->getFullNameFromParts([$surname, $name, $patronymic]);
+            $genderCurrent = $this->getGenderFromName($fio);
+
+            do {
+                $randomPerson = $this->getRandomPerson($persons, 'fullname');
+                $genderRandomPerson = $this->getGenderFromName($randomPerson);
+            } while ($genderCurrent === $genderRandomPerson);
+
+            $compatibility = round($this->randomFloat(50, 100), 2);
+
+            return [
+                'first_person' => $this->getShortName($fio),
+                'first_gender' => $genderCurrent,
+                'second_person' => $this->getShortName($randomPerson),
+                'second_gender' => $genderRandomPerson,
+                'compatibility' => $compatibility.'%'
+            ];
+        }
+
+        return false;
+    }
+    
 }

@@ -11,21 +11,38 @@ class HomeController extends AbstractController {
         $personsModel = $this->loadModel('Persons');
 
         $persons = $personsModel->getPersons();
-        //dd($persons);
 
-        //dd($personsModel->getPartsFromFullName($persons[1]['fullname']));
-        $partsFullName = $personsModel->getPartsFromFullName($persons[0]['fullname']);
+        foreach ($persons as $key => $person) {
 
-        //dd($personsModel->getFullNameFromParts($partsFullName));
-        $fullName = $personsModel->getFullNameFromParts($partsFullName);
+            $persons[$key]['partsFullName'] = $personsModel->getPartsFromFullName($person['fullname']);
+            $persons[$key]['fullNameFromParts'] = $personsModel->getFullNameFromParts($persons[$key]['partsFullName']);
+            $persons[$key]['shortName'] = $personsModel->getShortName($persons[$key]['fullNameFromParts']);
+            $persons[$key]['genderFromName'] = $personsModel->getGenderFromName($persons[$key]['fullNameFromParts']);
 
-        //dd($personsModel->getShortName($fullName));
-        $shortName = $personsModel->getShortName($fullName);
+            $persons[$key]['perfectPartner'] = $personsModel->getPerfectPartner(
+                $persons[$key]['partsFullName']['surname'],
+                $persons[$key]['partsFullName']['name'],
+                $persons[$key]['partsFullName']['patronymic'],
+                $persons
+            );
+        }
 
-        dd($personsModel->getGenderFromName($fullName));
-        $genderFromName = $personsModel->getGenderFromName($fullName);
+        $genderDescription = $personsModel->getGenderDescription($persons);
+
+        $randomPerson = $personsModel->getRandomPerson($persons, 'fullname');
+        $randomPersonParts = $personsModel->getPartsFromFullName($randomPerson);
+
+        $perfectPartner = $personsModel->getPerfectPartner(
+            $randomPersonParts['surname'],
+            $randomPersonParts['name'],
+            $randomPersonParts['patronymic'],
+            $persons
+        );
 
         $forRender = parent::renderDefult();
+        $forRender['persons'] = $persons;
+        $forRender['genderDescription'] = $genderDescription;
+        $forRender['randomPerfectPartner'] = $perfectPartner;
 
         $this->view->render($forRender);
 

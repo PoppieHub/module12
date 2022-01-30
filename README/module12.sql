@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Янв 23 2022 г., 21:37
+-- Время создания: Янв 30 2022 г., 22:24
 -- Версия сервера: 8.0.24
 -- Версия PHP: 8.1.1
 
@@ -71,7 +71,7 @@ INSERT INTO `profession` (`id`, `name`) VALUES
 (3, 'analyst'),
 (4, 'fullstack-developer'),
 (5, 'PR-manager'),
-(6, '\'HR-manager'),
+(6, 'HR-manager'),
 (7, 'android-developer'),
 (8, 'babysitter');
 

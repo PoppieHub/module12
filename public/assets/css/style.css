@@ -4,6 +4,10 @@ body {
     background-color: #474747 !important;
 }
 
+* {
+    color: whitesmoke;
+}
+
 .greetings,
 p,
 h1, 
@@ -123,7 +127,8 @@ h2 {
     color: #424242;
 }
 
-h6 {
+h5 {
+    text-align: center;
     color: whitesmoke;
 }
 
@@ -131,6 +136,24 @@ h1 {
     color: whitesmoke;
     text-align: center;
     font-size: 2rem;
+}
+
+.table-gender {
+    border: 1px solid whitesmoke;
+    padding: 10px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.table-partner {
+    border: 1px solid whitesmoke;
+    padding: 10px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.color-style {
+    --bs-table-bg: #2b2929 !important;
 }
 
 .footer {
@@ -146,8 +169,4 @@ h1 {
 
 #footer-label {
     text-align: center;
-}
-
-.title-portfolio {
-
 }
